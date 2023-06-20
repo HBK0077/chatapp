@@ -10,10 +10,11 @@ button.addEventListener("click", async(e)=>{
         email:email.value,
         password:password.value
     }
-    console.log(obj);
+   //console.log(obj);
     const userLogin = await axios.post("http://localhost:2000/user-login",obj)
         
-        if(userLogin.data.success===true){            
+        if(userLogin.data.success===true){   
+            localStorage.setItem('token', userLogin.data.token);         
             console.log("User data is available in DB");
             alert("User Logged In");
             //window.location.href="./index.html";

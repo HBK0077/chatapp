@@ -50,6 +50,12 @@ exports.addUser = async(req,res, next)=>{
     }
 }
 
+
+function generateAccessToken(id, isPremium){
+    return jwt.sign({userId: id, isPremium}, 'secretKeyIsBiggerValue')
+}
+
+
 exports.userLogin = async(req,res,next)=>{
     const transaction = await sequelize.transaction();
     try{
@@ -63,7 +69,7 @@ exports.userLogin = async(req,res,next)=>{
         },{
             transaction: transaction
         });
-        console.log(login[0]);
+        //console.log(login[0]);
         if(login.length>0){
             bcrypt.compare(checkpassword, login[0].password, async(err, result)=>{
                 if(err){
@@ -77,7 +83,7 @@ exports.userLogin = async(req,res,next)=>{
                     return res.json({
                         msg:"Password is correct",
                         success: true,
-                         
+                        token: generateAccessToken(login[0].id)                        
                     });
                     await transaction.commit();
                 }else{
