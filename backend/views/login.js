@@ -1,0 +1,30 @@
+let email = document.getElementById('email');
+let password = document.getElementById('password');
+let button = document.getElementById('press');
+
+//user login 
+button.addEventListener("click", async(e)=>{
+    try{
+        e.preventDefault();
+    obj={
+        email:email.value,
+        password:password.value
+    }
+    console.log(obj);
+    const userLogin = await axios.post("http://localhost:2000/user-login",obj)
+        
+        if(userLogin.data.success===true){            
+            console.log("User data is available in DB");
+            alert("User Logged In");
+            //window.location.href="./index.html";
+            
+        }else{
+            console.log("User Not existing");
+            alert("Please Sign Up");
+        }
+    }catch(err){
+        console.log(err);
+    }
+    
+   
+})

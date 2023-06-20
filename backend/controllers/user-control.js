@@ -1,5 +1,6 @@
 const user = require("../models/user");
 const bcrypt = require('bcrypt');
+const jwt = require("jsonwebtoken");
 const sequelize = require("../util/database");
 
 exports.addUser = async(req,res, next)=>{
@@ -46,5 +47,53 @@ exports.addUser = async(req,res, next)=>{
     }
     catch(err){
         console.log(err);
+    }
+}
+
+exports.userLogin = async(req,res,next)=>{
+    const transaction = await sequelize.transaction();
+    try{
+        const checkemail = req.body.email;
+        const checkpassword = req.body.password;
+        console.log(checkemail);
+        const login = await user.findAll({
+            where:{
+                email: checkemail
+            }
+        },{
+            transaction: transaction
+        });
+        console.log(login[0]);
+        if(login.length>0){
+            bcrypt.compare(checkpassword, login[0].password, async(err, result)=>{
+                if(err){
+                    return res.json({
+                        msg:"dcryting error",
+                        success: false
+                    });
+                }
+                console.log(result);
+                if(result === true){
+                    return res.json({
+                        msg:"Password is correct",
+                        success: true,
+                         
+                    });
+                    await transaction.commit();
+                }else{
+                    return res.json({
+                        success:false,
+                        msg: "Pasword incorrect"
+                    });
+                }
+            });
+        }else{
+            return res.json("User doesnt exist");
+        }
+
+
+    }catch(err){
+        console.log(err);
+        await transaction.rollback();
     }
 }

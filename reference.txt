@@ -1,0 +1,4 @@
+cors: used for access controlling the headers.
+Options call in cors is that we are change the access control headers from default to our specified request headers.
+default are: get,post,put,patch,delete 
+we can set it to desire request headers
