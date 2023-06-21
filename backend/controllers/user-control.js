@@ -26,7 +26,10 @@ exports.addUser = async(req,res, next)=>{
                     }
                 })
                 if(found.length != 0){
-                    res.json({msg:"User Already exists!! Please enter a different email", success:false});
+                    res.json({
+                        msg:"User Already exists!! Please enter a different email", 
+                        success:false
+                    });
                 }else{
                     const data = await user.create({
                     name:name,
@@ -51,8 +54,8 @@ exports.addUser = async(req,res, next)=>{
 }
 
 
-function generateAccessToken(id, isPremium){
-    return jwt.sign({userId: id, isPremium}, 'secretKeyIsBiggerValue')
+function generateAccessToken(id, islogged){
+    return jwt.sign({userId: id, islogged}, 'secretKeyIsBiggerValue')
 }
 
 
@@ -80,10 +83,18 @@ exports.userLogin = async(req,res,next)=>{
                 }
                 console.log(result);
                 if(result === true){
+                    updateLogin = true;
+                    await user.update({
+                        islogged: updateLogin
+                    },{
+                        where: {
+                            id: login[0].id
+                        }
+                    });
                     return res.json({
                         msg:"Password is correct",
                         success: true,
-                        token: generateAccessToken(login[0].id)                        
+                        token: generateAccessToken(login[0].id, login[0].islogged)                        
                     });
                     await transaction.commit();
                 }else{

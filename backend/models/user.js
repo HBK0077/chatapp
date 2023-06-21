@@ -24,6 +24,9 @@ const user = sequelize.define("users",{
     password:{
         type: Sequelize.STRING,
         allowNull: false
+    },
+    islogged:{
+        type: Sequelize.BOOLEAN
     }
 })
 

@@ -17,7 +17,7 @@ button.addEventListener("click", async(e)=>{
             localStorage.setItem('token', userLogin.data.token);         
             console.log("User data is available in DB");
             alert("User Logged In");
-            //window.location.href="./index.html";
+            window.location.href="./index.html";
             
         }else{
             console.log("User Not existing");
