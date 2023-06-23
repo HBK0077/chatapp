@@ -64,7 +64,9 @@ exports.userLogin = async(req,res,next)=>{
     try{
         const checkemail = req.body.email;
         const checkpassword = req.body.password;
-        console.log(checkemail);
+        //console.log(checkemail);
+       //const user_id = req.user.id;
+        //console.log(user_id);
         const login = await user.findAll({
             where:{
                 email: checkemail
@@ -83,14 +85,6 @@ exports.userLogin = async(req,res,next)=>{
                 }
                 console.log(result);
                 if(result === true){
-                    updateLogin = true;
-                    await user.update({
-                        islogged: updateLogin
-                    },{
-                        where: {
-                            id: login[0].id
-                        }
-                    });
                     return res.json({
                         msg:"Password is correct",
                         success: true,

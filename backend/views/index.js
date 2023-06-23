@@ -1,27 +1,18 @@
-let message = document.getElementById("message");
-let button = document.getElementById("button");
-
-//check the how many users have logged in
-function parseJwt (token) {
-    var base64Url = token.split('.')[1];
-    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
-
-    return JSON.parse(jsonPayload);
-}
+let sendbtn = document.getElementById("send");
+let textMessage = document.getElementById("messages");
 
 
-//adding the message
-button.addEventListener("click", async(e)=>{
+sendbtn.onclick = async(e)=>{
     try{
         e.preventDefault();
-        obj={
-            message: message.value
+        const obj = {
+            message: textMessage.value
         }
-
+        const token = localStorage.getItem('token');
+        const addMessage = await axios.post("http://localhost:2000/add-message", obj, {headers:{"Authorization": token}});
+        console.log(addMessage.data.newmessage.message);
+        //showmessageOnscreen(addMessage.data.message);
     }catch(err){
-        console.log(err);
+        console.log(err)
     }
-});
+}
