@@ -11,7 +11,8 @@ exports.addMessage = async(req,res,next)=>{
         console.log(message);
         const data = await message.create({
             message: messages,
-            userId: req.user.id
+            userId: req.user.id,
+            userName: req.user.name
         },
         {
             transaction: transaction
