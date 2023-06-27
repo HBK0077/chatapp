@@ -7,12 +7,31 @@ const sequelize=require("./util/database");
 
 const userDetails = require("./routes/user");
 const messageDetails = require("./routes/message");
+const groupDetails = require("./routes/group");
+const usersofgroupDetails = require("./routes/viewusersofgroup");
+
+const userTable =require("./models/user");
+const messageTable = require("./models/message");
+const groupTable = require("./models/group");
+const usergroupsTable = require("./models/usergroups");
 const app = express();
 
 app.use(cors());
 app.use(bodyparser.json());
 app.use(userDetails);
 app.use(messageDetails);
+app.use(groupDetails);
+app.use(usersofgroupDetails);
+
+
+userTable.hasMany(messageTable);
+messageTable.belongsTo(userTable);
+
+groupTable.hasMany(messageTable);
+messageTable.belongsTo(groupTable);
+
+groupTable.belongsToMany(userTable,{through: usergroupsTable});
+userTable.belongsToMany(groupTable,{through: usergroupsTable});
 
 sequelize.sync().then(()=>{
     app.listen(2000, ()=>{

@@ -1,6 +1,7 @@
 let sendbtn = document.getElementById("send");
 let textMessage = document.getElementById("messages");
 let parentNode = document.getElementById("allMessages");
+let createGroupBtn = document.getElementById("creategroup");
 
 //showing message from DB
 window.addEventListener("DOMContentLoaded", async(e)=>{
@@ -49,5 +50,14 @@ sendbtn.onclick = async(e)=>{
         showChatOnBrowser(addMessage.data.newmessage);
     }catch(err){
         console.log(err)
+    }
+}
+
+createGroupBtn.onclick = async()=>{
+    try{
+        window.location.href = "./group.html"
+
+    }catch(err){
+        console.log(err);
     }
 }
