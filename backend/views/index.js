@@ -7,7 +7,7 @@ let goBackbtn = document.getElementById("goback");
 window.addEventListener("DOMContentLoaded", async(e)=>{
     const token = localStorage.getItem("token");
     const grpid = localStorage.getItem("groupId");
-    const response = await axios.get(`http://54.221.155.184:2000/show-message/${grpid}`,{headers:{"Authorization": token}});
+    const response = await axios.get(`http://54.226.121.78:2000/show-message/${grpid}`,{headers:{"Authorization": token}});
         console.log(response.data);
         //console.log(response.data.allMessage.length);
         for(let i=0;i<response.data.allMessage.length;i++){
@@ -46,7 +46,7 @@ sendbtn.onclick = async(e)=>{
             groupId: groupid
         }
         const token = localStorage.getItem('token');
-        const addMessage = await axios.post("http://54.221.155.184:2000/add-message", obj, {headers:{"Authorization": token}});
+        const addMessage = await axios.post("http://54.226.121.78:2000/add-message", obj, {headers:{"Authorization": token}});
         //console.log(addMessage.data.newmessage.message);
         //console.log(addMessage.data.newmessage)
         showChatOnBrowser(addMessage.data.newmessage);

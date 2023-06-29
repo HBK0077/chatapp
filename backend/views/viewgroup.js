@@ -8,7 +8,7 @@ parentNode.innerHTML = parentNode.innerHTML+groupid;
 window.addEventListener("DOMContentLoaded", async(e)=>{
     try{
         const token = localStorage.getItem("token");
-        const alluserData = await axios.get("http://54.221.155.184:2000/view-users-of-group",{headers:{"Authorization": token}});
+        const alluserData = await axios.get("http://54.226.121.78:2000/view-users-of-group",{headers:{"Authorization": token}});
         console.log(alluserData.data.userData);
         for(let i=0; i<alluserData.data.userData.length;i++){
             showonScreen(alluserData.data.userData[i]);
@@ -41,7 +41,7 @@ async function senduserData(sendData){
             userid: id,
             groupid:grpid
         }
-        const response = await axios.post(`http://54.221.155.184:2000/add-user-to-group`, myobj,{headers:{"Authorization": token}});
+        const response = await axios.post(`http://54.226.121.78:2000/add-user-to-group`, myobj,{headers:{"Authorization": token}});
         console.log(response)
         //showonScreen(response.data.addData);
         alert("user added to group");

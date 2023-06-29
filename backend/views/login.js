@@ -11,7 +11,7 @@ button.addEventListener("click", async(e)=>{
         password:password.value
     }
    //console.log(obj);
-    const userLogin = await axios.post("http://54.221.155.184:2000/user-login",obj)
+    const userLogin = await axios.post("http://54.226.121.78:2000/user-login",obj)
         
         if(userLogin.data.success===true){   
             localStorage.setItem('token', userLogin.data.token);         
