@@ -8,11 +8,13 @@ exports.addMessage = async(req,res,next)=>{
     const transaction = await sequelize.transaction();
     try{
         const messages = req.body.message;
+        const grpid = req.body.groupId;
         console.log(message);
         const data = await message.create({
             message: messages,
             userId: req.user.id,
-            userName: req.user.name
+            userName: req.user.name,
+            groupId: grpid
         },
         {
             transaction: transaction
@@ -34,9 +36,11 @@ exports.addMessage = async(req,res,next)=>{
 
 exports.getMessages = async(req,res,next)=>{
     try{
+        const gid = req.params.id;
+        //console.log(gid);
         const data = await message.findAll({
             where: {
-                userId: req.user.id
+                groupId :gid
             }
         })
         return res.json({

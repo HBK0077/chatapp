@@ -1,14 +1,14 @@
 let sendbtn = document.getElementById("send");
 let textMessage = document.getElementById("messages");
 let parentNode = document.getElementById("allMessages");
-let createGroupBtn = document.getElementById("creategroup");
+let goBackbtn = document.getElementById("goback");
 
 //showing message from DB
 window.addEventListener("DOMContentLoaded", async(e)=>{
     const token = localStorage.getItem("token");
-        
-        const response = await axios.get("http://localhost:2000/show-message", {headers:{"Authorization": token}});
-        //console.log(response.data);
+    const grpid = localStorage.getItem("groupId");
+    const response = await axios.get(`http://localhost:2000/show-message/${grpid}`,{headers:{"Authorization": token}});
+        console.log(response.data);
         //console.log(response.data.allMessage.length);
         for(let i=0;i<response.data.allMessage.length;i++){
             showChatOnBrowser(response.data.allMessage[i]);
@@ -40,8 +40,10 @@ async function showChatOnBrowser(show){
 sendbtn.onclick = async(e)=>{
     try{
         //e.preventDefault();
+        groupid = localStorage.getItem("groupId");
         const obj = {
-            message: textMessage.value
+            message: textMessage.value,
+            groupId: groupid
         }
         const token = localStorage.getItem('token');
         const addMessage = await axios.post("http://localhost:2000/add-message", obj, {headers:{"Authorization": token}});
@@ -53,7 +55,7 @@ sendbtn.onclick = async(e)=>{
     }
 }
 
-createGroupBtn.onclick = async()=>{
+goBackbtn.onclick = async()=>{
     try{
         window.location.href = "./group.html"
 

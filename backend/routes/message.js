@@ -5,7 +5,7 @@ const messageControl = require("../controllers/message-control");
 
 
 //get all messages
-routes.get("/show-message",userAuthentication.authenticate, messageControl.getMessages);
+routes.get("/show-message/:id",userAuthentication.authenticate, messageControl.getMessages);
 
 routes.post("/add-message", userAuthentication.authenticate, messageControl.addMessage);
 

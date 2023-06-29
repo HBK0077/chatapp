@@ -43,10 +43,11 @@ async function senduserData(sendData){
         }
         const response = await axios.post(`http://localhost:2000/add-user-to-group`, myobj,{headers:{"Authorization": token}});
         console.log(response)
-
-
-
+        //showonScreen(response.data.addData);
+        alert("user added to group");
+        window.location.href="./index.html";
     }catch(err){
         console.log(err);
     }
 }
+

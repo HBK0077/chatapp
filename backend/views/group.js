@@ -26,6 +26,7 @@ async function showallgroups(group){
         var childNode = `<li>
         ${group.groupName}
         <button onclick="viewgroup(${group.id})">view group</button>
+        <button onclick="chatwithuser(${group.id})">Chat</button>
         </li>`
         parentNode.innerHTML = parentNode.innerHTML+childNode;
 
@@ -41,6 +42,14 @@ async function viewgroup(groupid){
         //localStorage.setItem("groupName", groupname);
         window.location.href=`./viewgroup.html`;
 
+    }catch(err){
+        console.log(err);
+    }
+}
+async function chatwithuser(groupid){
+    try{
+        localStorage.setItem("groupId", groupid);
+        window.location.href="./index.html";
     }catch(err){
         console.log(err);
     }
