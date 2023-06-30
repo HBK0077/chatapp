@@ -6,7 +6,7 @@ let parentNode = document.getElementById("listofgroups");
 window.addEventListener("DOMContentLoaded", async(e)=>{
     try{
         const token = localStorage.getItem("token");
-        const response = await axios.get("http://54.226.121.78:2000/get-groups",{headers:{"Authorization": token}});
+        const response = await axios.get("http://localhost:2000/get-groups",{headers:{"Authorization": token}});
         // console.log(response);
         // console.log(response.data);
        // console.log(response.data.allGroups);
@@ -64,7 +64,7 @@ create.onclick = async(e)=>{
             groupname: groupname.value
         }
         const token = localStorage.getItem('token');
-        const response = await axios.post("http://54.226.121.78:2000/add-group",obj,{headers:{"Authorization": token}});
+        const response = await axios.post("http://localhost:2000/add-group",obj,{headers:{"Authorization": token}});
         //console.log(response);
         showallgroups(response.data.newGroup);
 

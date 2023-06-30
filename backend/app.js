@@ -5,6 +5,8 @@ const cors=require("cors");
 require('dotenv').config();
 const bodyparser=require("body-parser");
 const sequelize=require("./util/database");
+//const io = require("socket.io")(3000);
+const cron = require("node-cron");
 
 const userDetails = require("./routes/user");
 const messageDetails = require("./routes/message");
@@ -15,6 +17,7 @@ const userTable =require("./models/user");
 const messageTable = require("./models/message");
 const groupTable = require("./models/group");
 const usergroupsTable = require("./models/usergroups");
+const archeiveTable = require("./models/archieve");
 const app = express();
 
 app.use(cors());
@@ -36,8 +39,27 @@ messageTable.belongsTo(groupTable);
 groupTable.belongsToMany(userTable,{through: usergroupsTable});
 userTable.belongsToMany(groupTable,{through: usergroupsTable});
 
-sequelize.sync().then(()=>{
+// io.on("connection", socket =>{
+//     console.log(socket.id);
+// })
+
+sequelize.sync({}).then(()=>{
     app.listen(2000, ()=>{
         console.log("Server is lietning");
     });
 })
+cron.schedule("0 9 * * *",async()=>{
+    const response=await message.findAll()
+    for(let i=0;i<response.length;i++){
+     const data=await archeiveTable.create({
+         message:response[i].dataValues.message,
+         userId:response[i].dataValues.userId,
+         groupId:response[i].dataValues.groupId,
+         userName:response[i].dataValues.userName
+     })
+    await message.destroy({where:{id:response[i].dataValues.id}})
+    }
+    
+ },{
+     timezone:'Asia/Kolkata'
+ })
