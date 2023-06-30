@@ -5,7 +5,7 @@ const cors=require("cors");
 require('dotenv').config();
 const bodyparser=require("body-parser");
 const sequelize=require("./util/database");
-//const io = require("socket.io")(3000);
+const io = require("socket.io")(8050);
 const cron = require("node-cron");
 
 const userDetails = require("./routes/user");
@@ -39,9 +39,9 @@ messageTable.belongsTo(groupTable);
 groupTable.belongsToMany(userTable,{through: usergroupsTable});
 userTable.belongsToMany(groupTable,{through: usergroupsTable});
 
-// io.on("connection", socket =>{
-//     console.log(socket.id);
-// })
+io.on("connection", socket =>{
+    console.log(socket.id);
+})
 
 sequelize.sync({}).then(()=>{
     app.listen(2000, ()=>{
