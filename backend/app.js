@@ -1,5 +1,6 @@
 const express=require("express");
 const path = require("path");
+const fs = require("fs");
 const cors=require("cors");
 require('dotenv').config();
 const bodyparser=require("body-parser");
@@ -22,7 +23,9 @@ app.use(userDetails);
 app.use(messageDetails);
 app.use(groupDetails);
 app.use(usersofgroupDetails);
-
+app.use((req,res)=>{
+    res.sendFile(path.join(__dirname, `views/${req.url}`));
+})
 
 userTable.hasMany(messageTable);
 messageTable.belongsTo(userTable);
